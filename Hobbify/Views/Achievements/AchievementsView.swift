@@ -2,7 +2,7 @@ import SwiftUI
 
 struct AchievementsView: View {
     @Environment(\.managedObjectContext) private var viewContext
-    @State private var selectedHobby: Hobby?
+    @ObservedObject private var hobbyState = HobbyState.shared
     
     @FetchRequest private var achievements: FetchedResults<Achievement>
     
@@ -18,13 +18,13 @@ struct AchievementsView: View {
     var body: some View {
         NavigationView {
             VStack(spacing: 0) {
-                HobbySelector(selectedHobby: $selectedHobby)
+                HobbySelector()
                     .zIndex(1)
-                    .onChange(of: selectedHobby) { newHobby in
+                    .onChange(of: hobbyState.selectedHobby) { newHobby in
                         updateAchievementsPredicate(for: newHobby)
                     }
                 
-                if let hobby = selectedHobby {
+                if let hobby = hobbyState.selectedHobby {
                     if achievements.isEmpty {
                         VStack(spacing: 20) {
                             Image(systemName: "trophy")

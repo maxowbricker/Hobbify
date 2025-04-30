@@ -7,7 +7,7 @@ struct HobbySelector: View {
         animation: .default)
     private var hobbies: FetchedResults<Hobby>
     
-    @Binding var selectedHobby: Hobby?
+    @ObservedObject private var hobbyState = HobbyState.shared
     @State private var isShowingHobbyPicker = false
     @State private var isShowingNewHobby = false
     
@@ -17,7 +17,7 @@ struct HobbySelector: View {
                 isShowingHobbyPicker.toggle()
             }) {
                 HStack {
-                    if let hobby = selectedHobby {
+                    if let hobby = hobbyState.selectedHobby {
                         HStack(spacing: 8) {
                             Image(systemName: hobby.icon ?? "star.fill")
                                 .font(.title3)
@@ -46,7 +46,7 @@ struct HobbySelector: View {
                     VStack(spacing: 0) {
                         ForEach(hobbies) { hobby in
                             Button(action: {
-                                selectedHobby = hobby
+                                hobbyState.selectedHobby = hobby
                                 isShowingHobbyPicker = false
                             }) {
                                 HStack {
@@ -55,7 +55,7 @@ struct HobbySelector: View {
                                     Text(hobby.name ?? "")
                                         .foregroundColor(.primary)
                                     Spacer()
-                                    if hobby == selectedHobby {
+                                    if hobby == hobbyState.selectedHobby {
                                         Image(systemName: "checkmark")
                                             .foregroundColor(.blue)
                                     }
@@ -92,6 +92,6 @@ struct HobbySelector: View {
 }
 
 #Preview {
-    HobbySelector(selectedHobby: .constant(nil))
+    HobbySelector()
         .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
 } 

@@ -2,15 +2,15 @@ import SwiftUI
 
 struct DashboardView: View {
     @Environment(\.managedObjectContext) private var viewContext
-    @State private var selectedHobby: Hobby?
+    @ObservedObject private var hobbyState = HobbyState.shared
     
     var body: some View {
         NavigationView {
             VStack(spacing: 0) {
-                HobbySelector(selectedHobby: $selectedHobby)
-                    .zIndex(1) // Ensure selector stays on top
+                HobbySelector()
+                    .zIndex(1)
                 
-                if let hobby = selectedHobby {
+                if let hobby = hobbyState.selectedHobby {
                     ScrollView {
                         VStack(alignment: .leading, spacing: 20) {
                             // Hobby Overview Section
@@ -47,7 +47,7 @@ struct DashboardView: View {
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                 }
             }
-            .navigationBarHidden(true) // Hide the navigation bar completely
+            .navigationBarHidden(true)
         }
     }
 }

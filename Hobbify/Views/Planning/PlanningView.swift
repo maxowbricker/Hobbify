@@ -2,15 +2,15 @@ import SwiftUI
 
 struct PlanningView: View {
     @Environment(\.managedObjectContext) private var viewContext
-    @State private var selectedHobby: Hobby?
+    @ObservedObject private var hobbyState = HobbyState.shared
     
     var body: some View {
         NavigationView {
             VStack(spacing: 0) {
-                HobbySelector(selectedHobby: $selectedHobby)
+                HobbySelector()
                     .zIndex(1)
                 
-                if let hobby = selectedHobby {
+                if let hobby = hobbyState.selectedHobby {
                     VStack {
                         Text("Planning Coming Soon")
                             .font(.headline)

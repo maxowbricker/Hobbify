@@ -2,7 +2,7 @@ import SwiftUI
 
 struct ActivitiesView: View {
     @Environment(\.managedObjectContext) private var viewContext
-    @State private var selectedHobby: Hobby?
+    @ObservedObject private var hobbyState = HobbyState.shared
     @State private var showingNewActivity = false
     
     @FetchRequest private var activities: FetchedResults<Activity>
@@ -19,13 +19,13 @@ struct ActivitiesView: View {
     var body: some View {
         NavigationView {
             VStack(spacing: 0) {
-                HobbySelector(selectedHobby: $selectedHobby)
+                HobbySelector()
                     .zIndex(1)
-                    .onChange(of: selectedHobby) { newHobby in
+                    .onChange(of: hobbyState.selectedHobby) { newHobby in
                         updateActivitiesPredicate(for: newHobby)
                     }
                 
-                if let hobby = selectedHobby {
+                if let hobby = hobbyState.selectedHobby {
                     ZStack {
                         if activities.isEmpty {
                             VStack {
