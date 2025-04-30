@@ -12,6 +12,7 @@
         <attribute name="rating" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="tags" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData" customClassName="[String]"/>
         <attribute name="title" optional="NO" attributeType="String"/>
+        <relationship name="hobby" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Hobby" inverseName="activities" inverseEntity="Hobby"/>
     </entity>
     <entity name="Achievement" representedClassName="Achievement" syncable="YES" codeGenerationType="class">
         <attribute name="dateEarned" optional="NO" attributeType="Date" usesScalarValueType="NO"/>
@@ -19,6 +20,18 @@
         <attribute name="id" optional="NO" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="title" optional="NO" attributeType="String"/>
         <attribute name="type" optional="NO" attributeType="String"/>
+        <relationship name="hobby" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Hobby" inverseName="achievements" inverseEntity="Hobby"/>
+    </entity>
+    <entity name="Hobby" representedClassName="Hobby" syncable="YES" codeGenerationType="class">
+        <attribute name="color" optional="YES" attributeType="String"/>
+        <attribute name="createdAt" optional="NO" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="desc" optional="YES" attributeType="String"/>
+        <attribute name="icon" optional="YES" attributeType="String"/>
+        <attribute name="id" optional="NO" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="name" optional="NO" attributeType="String"/>
+        <relationship name="activities" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Activity" inverseName="hobby" inverseEntity="Activity"/>
+        <relationship name="achievements" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Achievement" inverseName="hobby" inverseEntity="Achievement"/>
+        <relationship name="milestones" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Milestone" inverseName="hobby" inverseEntity="Milestone"/>
     </entity>
     <entity name="Milestone" representedClassName="Milestone" syncable="YES" codeGenerationType="class">
         <attribute name="completed" optional="NO" attributeType="Boolean" usesScalarValueType="YES"/>
@@ -27,10 +40,12 @@
         <attribute name="desc" optional="YES" attributeType="String"/>
         <attribute name="id" optional="NO" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="title" optional="NO" attributeType="String"/>
+        <relationship name="hobby" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Hobby" inverseName="milestones" inverseEntity="Hobby"/>
     </entity>
     <elements>
-        <element name="Activity" positionX="-63" positionY="-18" width="128" height="119"/>
-        <element name="Achievement" positionX="-54" positionY="-9" width="128" height="104"/>
-        <element name="Milestone" positionX="-36" positionY="9" width="128" height="119"/>
+        <element name="Activity" positionX="-63" positionY="-18" width="128" height="164"/>
+        <element name="Achievement" positionX="-54" positionY="-9" width="128" height="149"/>
+        <element name="Hobby" positionX="0" positionY="0" width="128" height="149"/>
+        <element name="Milestone" positionX="-36" positionY="9" width="128" height="164"/>
     </elements>
 </model>
