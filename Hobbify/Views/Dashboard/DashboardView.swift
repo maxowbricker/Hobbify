@@ -47,13 +47,7 @@ struct DashboardView: View {
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                 }
             }
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .principal) {
-                    Text("Dashboard")
-                        .font(.headline)
-                }
-            }
+            .navigationBarHidden(true) // Hide the navigation bar completely
         }
     }
 }
