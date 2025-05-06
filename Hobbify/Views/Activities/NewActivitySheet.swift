@@ -73,10 +73,19 @@ struct NewActivitySheet: View {
                     HStack {
                         Text("Rating")
                         Spacer()
-                        ForEach(0..<5) { index in
-                            Button(action: { rating = index }) {
-                                Text(ratingEmojis[index])
-                                    .opacity(rating == index ? 1.0 : 0.3)
+                        HStack(spacing: 12) {
+                            ForEach(0..<5) { index in
+                                Button {
+                                    withAnimation {
+                                        rating = index + 1
+                                    }
+                                } label: {
+                                    Text(ratingEmojis[index])
+                                        .font(.title2)
+                                        .scaleEffect(rating == index + 1 ? 1.2 : 1.0)
+                                        .opacity(rating == index + 1 ? 1.0 : 0.3)
+                                }
+                                .buttonStyle(PlainButtonStyle())
                             }
                         }
                     }
@@ -158,6 +167,7 @@ struct NewActivitySheet: View {
         newActivity.rating = Int16(rating)
         newActivity.notes = notes
         newActivity.cost = NSDecimalNumber(value: cost)
+        newActivity.hobby = HobbyState.shared.selectedHobby
         
         // Save images to documents directory and store URLs
         var mediaURLs: [URL] = []
