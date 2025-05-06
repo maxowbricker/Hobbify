@@ -11,9 +11,9 @@ struct PlanningView: View {
                     .zIndex(1)
                 
                 if let hobby = hobbyState.selectedHobby {
-                    VStack {
-                        Text("Planning Coming Soon")
-                            .font(.headline)
+            VStack {
+                Text("Planning Coming Soon")
+                    .font(.headline)
                             .foregroundColor(.secondary)
                     }
                     .frame(maxWidth: .infinity, maxHeight: .infinity)

@@ -51,7 +51,7 @@ struct AchievementsView: View {
                         }
                     }
                 } else {
-                    VStack {
+            VStack {
                         Text("Select a hobby to view its achievements")
                             .foregroundColor(.secondary)
                     }
@@ -100,8 +100,8 @@ struct AchievementCard: View {
                     .background(Color.blue.opacity(0.1))
                     .foregroundColor(.blue)
                     .cornerRadius(8)
-            }
         }
+    }
         .padding()
         .background(Color(.systemBackground))
         .cornerRadius(12)

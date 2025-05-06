@@ -2,22 +2,26 @@ import SwiftUI
 
 struct ActivityCard: View {
     let activity: Activity
+    @State private var showDetail = false
     
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             HStack {
-                Text(activity.title ?? "")
-                    .font(.headline)
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(activity.title ?? "")
+                        .font(.headline)
+                    Text(activity.date ?? Date(), style: .date)
+                        .font(.subheadline)
+                        .foregroundColor(.secondary)
+                }
                 Spacer()
-                Text(activity.date ?? Date(), style: .date)
-                    .font(.subheadline)
-                    .foregroundColor(.secondary)
             }
             
             if let notes = activity.notes, !notes.isEmpty {
                 Text(notes)
                     .font(.subheadline)
                     .foregroundColor(.secondary)
+                    .lineLimit(2)
             }
             
             HStack {
@@ -38,6 +42,13 @@ struct ActivityCard: View {
         .background(Color(.systemBackground))
         .cornerRadius(12)
         .shadow(radius: 2)
+        .contentShape(Rectangle())
+        .onTapGesture {
+            showDetail = true
+        }
+        .sheet(isPresented: $showDetail) {
+            ActivityDetailView(activity: activity)
+        }
     }
     
     private func formatDuration(_ duration: Double) -> String {
