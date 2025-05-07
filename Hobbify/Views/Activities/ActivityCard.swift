@@ -3,38 +3,28 @@ import SwiftUI
 struct ActivityCard: View {
     let activity: Activity
     
+    private let ratingEmojis = ["😞", "😕", "😐", "🙂", "😊"]
+    
     var body: some View {
         NavigationLink(destination: ActivityDetailView(activity: activity)) {
-            VStack(alignment: .leading, spacing: 8) {
-                HStack {
-                    VStack(alignment: .leading, spacing: 4) {
-                        Text(activity.title ?? "")
-                            .font(.headline)
-                        Text(activity.date ?? Date(), style: .date)
-                            .font(.subheadline)
-                            .foregroundColor(.secondary)
-                    }
-                    Spacer()
-                }
-                
-                if let notes = activity.notes, !notes.isEmpty {
-                    Text(notes)
-                        .font(.subheadline)
-                        .foregroundColor(.secondary)
-                        .lineLimit(2)
-                }
-                
+            VStack(alignment: .leading, spacing: 0) {
+                // Title and Date
+                Text(activity.title ?? "")
+                    .font(.headline)
+                Spacer().frame(height: 8)
+                Text(activity.date ?? Date(), style: .date)
+                    .font(.subheadline)
+                    .foregroundColor(.secondary)
+                Spacer().frame(height: 4)
                 HStack {
                     Label(formatDuration(activity.duration), systemImage: "clock")
                         .font(.subheadline)
                         .foregroundColor(.secondary)
-                    
                     Spacer()
-                    
-                    if let urls = activity.mediaURLs, !urls.isEmpty {
-                        Label("\(urls.count) media", systemImage: "photo")
-                            .font(.subheadline)
-                            .foregroundColor(.secondary)
+                    if activity.rating > 0 && activity.rating <= ratingEmojis.count {
+                        Text(ratingEmojis[Int(activity.rating) - 1])
+                            .font(.title2)
+                            .padding(.trailing, 2)
                     }
                 }
             }
