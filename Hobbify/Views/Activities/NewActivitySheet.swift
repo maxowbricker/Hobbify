@@ -99,8 +99,13 @@ struct NewActivitySheet: View {
                 }
                 
                 Section(header: Text("Notes & Review")) {
-                    TextField("Post-activity notes", text: $notes, axis: .vertical)
-                        .lineLimit(4...8)
+                    TextEditor(text: $notes)
+                        .frame(minHeight: 100, maxHeight: 200)
+                        .padding(4)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 8)
+                                .stroke(Color.secondary.opacity(0.2))
+                        )
                 }
                 
                 Section(header: Text("Media")) {
