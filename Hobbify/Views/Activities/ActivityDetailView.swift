@@ -62,7 +62,7 @@ struct ActivityDetailView: View {
                 }
                 
                 // Tags Section
-                if let tags = activity.tags as? [String], !tags.isEmpty {
+                if let tags = activity.tags, !tags.isEmpty {
                     VStack(alignment: .leading, spacing: 8) {
                         Text("Tags")
                             .font(.headline)
@@ -103,7 +103,7 @@ struct ActivityDetailView: View {
                 }
                 
                 // Media Section
-                if let urls = activity.mediaURLs as? [URL], !urls.isEmpty {
+                if let urls = activity.mediaURLs, !urls.isEmpty {
                     VStack(alignment: .leading, spacing: 8) {
                         Text("Photos")
                             .font(.headline)
@@ -193,3 +193,4 @@ struct ImageFullScreenView: View {
         }
     }
 } 
+ 

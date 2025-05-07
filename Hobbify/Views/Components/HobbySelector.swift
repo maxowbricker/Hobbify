@@ -21,7 +21,7 @@ struct HobbySelector: View {
                         HStack(spacing: 8) {
                             Image(systemName: hobby.icon ?? "star.fill")
                                 .font(.title3)
-                                .foregroundColor(Color(hobby.color ?? "blue"))
+                                .foregroundColor(hobby.color.flatMap { Color($0) } ?? .blue)
                             Text(hobby.name ?? "")
                                 .font(.title3)
                                 .bold()
@@ -51,7 +51,8 @@ struct HobbySelector: View {
                             }) {
                                 HStack {
                                     Image(systemName: hobby.icon ?? "star.fill")
-                                        .foregroundColor(Color(hobby.color ?? "blue"))
+                                        .font(.title3)
+                                        .foregroundColor(hobby.color.flatMap { Color($0) } ?? .blue)
                                     Text(hobby.name ?? "")
                                         .foregroundColor(.primary)
                                     Spacer()

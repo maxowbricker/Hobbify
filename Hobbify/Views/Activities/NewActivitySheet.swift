@@ -33,14 +33,14 @@ struct NewActivitySheet: View {
                     TextField("Brief Description", text: $description)
                     
                     DatePicker("Start Time*", selection: $startTime)
-                        .onChange(of: startTime) { newValue in
+                        .onChange(of: startTime) { oldValue, newValue in
                             if newValue > endTime {
                                 endTime = newValue.addingTimeInterval(3600)
                             }
                         }
                     
                     DatePicker("End Time*", selection: $endTime)
-                        .onChange(of: endTime) { newValue in
+                        .onChange(of: endTime) { oldValue, newValue in
                             if newValue < startTime {
                                 startTime = newValue.addingTimeInterval(-3600)
                             }
@@ -74,13 +74,13 @@ struct NewActivitySheet: View {
                         Text("Rating")
                         Spacer()
                         HStack(spacing: 12) {
-                            ForEach(0..<5) { index in
+                        ForEach(0..<5) { index in
                                 Button {
                                     withAnimation {
                                         rating = index + 1
                                     }
                                 } label: {
-                                    Text(ratingEmojis[index])
+                                Text(ratingEmojis[index])
                                         .font(.title2)
                                         .scaleEffect(rating == index + 1 ? 1.2 : 1.0)
                                         .opacity(rating == index + 1 ? 1.0 : 0.3)
@@ -134,7 +134,7 @@ struct NewActivitySheet: View {
                     TagManagementView(selectedTags: $selectedTags)
                 }
             }
-            .onChange(of: selectedItems) { _ in
+            .onChange(of: selectedItems) {
                 Task {
                     selectedImages = []
                     for item in selectedItems {

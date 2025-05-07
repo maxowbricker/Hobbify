@@ -20,11 +20,11 @@ struct AchievementsView: View {
             VStack(spacing: 0) {
                 HobbySelector()
                     .zIndex(1)
-                    .onChange(of: hobbyState.selectedHobby) { newHobby in
-                        updateAchievementsPredicate(for: newHobby)
+                    .onChange(of: hobbyState.selectedHobby) { oldValue, newValue in
+                        updateAchievementsPredicate(for: newValue)
                     }
                 
-                if let hobby = hobbyState.selectedHobby {
+                if hobbyState.selectedHobby != nil {
                     if achievements.isEmpty {
                         VStack(spacing: 20) {
                             Image(systemName: "trophy")
@@ -51,7 +51,7 @@ struct AchievementsView: View {
                         }
                     }
                 } else {
-            VStack {
+                    VStack {
                         Text("Select a hobby to view its achievements")
                             .foregroundColor(.secondary)
                     }

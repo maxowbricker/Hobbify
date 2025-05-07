@@ -10,7 +10,7 @@ struct PlanningView: View {
                 HobbySelector()
                     .zIndex(1)
                 
-                if let hobby = hobbyState.selectedHobby {
+                if hobbyState.selectedHobby != nil {
             VStack {
                 Text("Planning Coming Soon")
                     .font(.headline)

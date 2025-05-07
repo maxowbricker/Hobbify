@@ -10,7 +10,7 @@ struct DashboardView: View {
                 HobbySelector()
                     .zIndex(1)
                 
-                if let hobby = hobbyState.selectedHobby {
+                if hobbyState.selectedHobby != nil {
                     ScrollView {
                         VStack(alignment: .leading, spacing: 20) {
                             // Hobby Overview Section
