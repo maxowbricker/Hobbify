@@ -21,7 +21,7 @@ struct HobbySelector: View {
                         HStack(spacing: 8) {
                             Image(systemName: hobby.icon ?? "star.fill")
                                 .font(.title3)
-                                .foregroundColor(hobby.color.flatMap { Color($0) } ?? .blue)
+                                .foregroundColor(systemColor(for: hobby.color))
                             Text(hobby.name ?? "")
                                 .font(.title3)
                                 .bold()
@@ -52,7 +52,7 @@ struct HobbySelector: View {
                                 HStack {
                                     Image(systemName: hobby.icon ?? "star.fill")
                                         .font(.title3)
-                                        .foregroundColor(hobby.color.flatMap { Color($0) } ?? .blue)
+                                        .foregroundColor(systemColor(for: hobby.color))
                                     Text(hobby.name ?? "")
                                         .foregroundColor(.primary)
                                     Spacer()
@@ -88,6 +88,19 @@ struct HobbySelector: View {
         .shadow(radius: 2)
         .sheet(isPresented: $isShowingNewHobby) {
             NewHobbyView()
+        }
+    }
+    
+    func systemColor(for name: String?) -> Color {
+        switch name {
+        case "blue"?: return .blue
+        case "red"?: return .red
+        case "green"?: return .green
+        case "purple"?: return .purple
+        case "orange"?: return .orange
+        case "pink"?: return .pink
+        case "yellow"?: return .yellow
+        default: return .blue
         }
     }
 }

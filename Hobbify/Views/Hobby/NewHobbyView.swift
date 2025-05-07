@@ -12,6 +12,19 @@ struct NewHobbyView: View {
     let icons = ["star.fill", "heart.fill", "book.fill", "gamecontroller.fill", "music.note", "camera.fill", "paintbrush.fill", "dumbbell.fill", "bicycle", "airplane"]
     let colors = ["blue", "red", "green", "purple", "orange", "pink", "yellow"]
     
+    func systemColor(for name: String) -> Color {
+        switch name {
+        case "blue": return .blue
+        case "red": return .red
+        case "green": return .green
+        case "purple": return .purple
+        case "orange": return .orange
+        case "pink": return .pink
+        case "yellow": return .yellow
+        default: return .blue
+        }
+    }
+    
     var body: some View {
         NavigationView {
             Form {
@@ -25,9 +38,9 @@ struct NewHobbyView: View {
                         ForEach(icons, id: \.self) { iconName in
                             Image(systemName: iconName)
                                 .font(.title)
-                                .foregroundColor(icon == iconName ? Color(color) : .primary)
+                                .foregroundColor(icon == iconName ? systemColor(for: color) : .primary)
                                 .frame(width: 60, height: 60)
-                                .background(icon == iconName ? Color(color).opacity(0.2) : Color.clear)
+                                .background(icon == iconName ? systemColor(for: color).opacity(0.2) : Color.clear)
                                 .cornerRadius(10)
                                 .onTapGesture {
                                     icon = iconName
@@ -41,7 +54,7 @@ struct NewHobbyView: View {
                     LazyVGrid(columns: [GridItem(.adaptive(minimum: 60))], spacing: 20) {
                         ForEach(colors, id: \.self) { colorName in
                             Circle()
-                                .fill(Color(colorName))
+                                .fill(systemColor(for: colorName))
                                 .frame(width: 40, height: 40)
                                 .overlay(
                                     Circle()
