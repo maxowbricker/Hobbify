@@ -51,7 +51,7 @@ struct AchievementsView: View {
                         }
                     }
                 } else {
-                    VStack {
+            VStack {
                         Text("Select a hobby to view its achievements")
                             .foregroundColor(.secondary)
                     }

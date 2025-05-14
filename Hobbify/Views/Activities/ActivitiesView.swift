@@ -26,7 +26,7 @@ struct ActivitiesView: View {
                     }
                 
                 if hobbyState.selectedHobby != nil {
-                    ZStack {
+            ZStack {
                         if activities.isEmpty {
                             VStack {
                                 Text("No activities yet")
@@ -34,33 +34,33 @@ struct ActivitiesView: View {
                             }
                             .frame(maxWidth: .infinity, maxHeight: .infinity)
                         } else {
-                            List {
-                                ForEach(activities) { activity in
-                                    ActivityCard(activity: activity)
-                                }
-                                .onDelete(perform: deleteActivities)
-                            }
-                        }
-                        
-                        // Floating Action Button
-                        VStack {
-                            Spacer()
-                            HStack {
-                                Spacer()
-                                Button(action: { showingNewActivity = true }) {
-                                    Image(systemName: "plus")
-                                        .font(.title2)
-                                        .fontWeight(.semibold)
-                                        .foregroundColor(.white)
-                                        .frame(width: 56, height: 56)
-                                        .background(Color.accentColor)
-                                        .clipShape(Circle())
-                                        .shadow(radius: 4)
-                                }
-                                .padding()
-                            }
-                        }
+                List {
+                    ForEach(activities) { activity in
+                        ActivityCard(activity: activity)
                     }
+                    .onDelete(perform: deleteActivities)
+                            }
+                }
+                
+                // Floating Action Button
+                VStack {
+                    Spacer()
+                    HStack {
+                        Spacer()
+                        Button(action: { showingNewActivity = true }) {
+                            Image(systemName: "plus")
+                                .font(.title2)
+                                .fontWeight(.semibold)
+                                .foregroundColor(.white)
+                                .frame(width: 56, height: 56)
+                                .background(Color.accentColor)
+                                .clipShape(Circle())
+                                .shadow(radius: 4)
+                        }
+                        .padding()
+                    }
+                }
+            }
                 } else {
                     VStack {
                         Text("Select a hobby to view its activities")

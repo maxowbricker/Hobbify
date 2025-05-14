@@ -16,8 +16,8 @@ struct ActivityCard: View {
                     .font(.subheadline)
                     .foregroundColor(.secondary)
                 Spacer().frame(height: 4)
-                HStack {
-                    Label(formatDuration(activity.duration), systemImage: "clock")
+            HStack {
+                Label(formatDuration(activity.duration), systemImage: "clock")
                         .font(.subheadline)
                         .foregroundColor(.secondary)
                     Spacer()
@@ -25,13 +25,13 @@ struct ActivityCard: View {
                         Text(ratingEmojis[Int(activity.rating) - 1])
                             .font(.title2)
                             .padding(.trailing, 2)
-                    }
                 }
             }
-            .padding()
-            .background(Color(.systemBackground))
-            .cornerRadius(12)
-            .shadow(radius: 2)
+        }
+        .padding()
+        .background(Color(.systemBackground))
+        .cornerRadius(12)
+        .shadow(radius: 2)
         }
         .buttonStyle(PlainButtonStyle())
     }

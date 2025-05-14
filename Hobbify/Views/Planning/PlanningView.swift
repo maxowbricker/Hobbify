@@ -34,3 +34,4 @@ struct PlanningView: View {
     PlanningView()
         .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
 } 
+ 
