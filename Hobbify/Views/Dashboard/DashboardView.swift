@@ -1,8 +1,11 @@
 import SwiftUI
+import CoreData
 
 struct DashboardView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @ObservedObject private var hobbyState = HobbyState.shared
+    
+    private let ratingEmojis = ["😞", "😕", "😐", "🙂", "😊"]
     
     var body: some View {
         NavigationView {
@@ -68,29 +71,7 @@ struct DashboardView: View {
                             }
                             // Last Activity
                             CardView {
-                                VStack(alignment: .leading, spacing: 8) {
-                                    Text("Last Activity")
-                                        .font(.headline)
-                                    HStack(alignment: .top, spacing: 12) {
-                                        VStack(alignment: .leading, spacing: 4) {
-                                            Text("Activity-title-here")
-                                                .font(.subheadline)
-                                                .bold()
-                                            Text("17/12/2025")
-                                                .font(.caption)
-                                                .foregroundColor(.secondary)
-                                            Text("Time Spent: 1:03 hrs\nSession Rating: 9/10")
-                                                .font(.caption2)
-                                                .foregroundColor(.secondary)
-                                        }
-                                        Spacer()
-                                        VStack(alignment: .leading, spacing: 4) {
-                                            Text("here could put something\ncapture like photos, notes\nwritten or voice taken")
-                                                .font(.caption2)
-                                                .foregroundColor(.secondary)
-                                        }
-                                    }
-                                }
+                                LastActivityView(activity: fetchLastActivity())
                             }
                             // Upcoming Sessions
                             CardView {
@@ -148,6 +129,29 @@ struct DashboardView: View {
             .navigationBarHidden(true)
         }
     }
+    
+    private func fetchLastActivity() -> Activity? {
+        guard let hobby = hobbyState.selectedHobby else { return nil }
+        
+        let request = NSFetchRequest<Activity>(entityName: "Activity")
+        request.predicate = NSPredicate(format: "hobby == %@", hobby)
+        request.sortDescriptors = [NSSortDescriptor(keyPath: \Activity.date, ascending: false)]
+        request.fetchLimit = 1
+        
+        do {
+            let activities = try viewContext.fetch(request)
+            return activities.first
+        } catch {
+            print("Error fetching last activity: \(error)")
+            return nil
+        }
+    }
+    
+    private func formatDuration(_ duration: Double) -> String {
+        let hours = Int(duration)
+        let minutes = Int((duration.truncatingRemainder(dividingBy: 1)) * 60)
+        return "\(hours)h \(minutes)m"
+    }
 }
 
 struct CardView<Content: View>: View {
@@ -185,7 +189,68 @@ struct QuickActionButton: View {
     }
 }
 
-#Preview {
-    DashboardView()
-        .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+struct LastActivityView: View {
+    let activity: Activity?
+    private let ratingEmojis = ["😞", "😕", "😐", "🙂", "😊"]
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text("Last Activity")
+                .font(.headline)
+            
+            if let activity = activity {
+                NavigationLink {
+                    ActivityDetailView(activity: activity)
+                } label: {
+                    HStack(alignment: .center, spacing: 12) {
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text(activity.title ?? "Untitled Activity")
+                                .font(.subheadline)
+                                .bold()
+                            Text(activity.date ?? Date(), style: .date)
+                                .font(.caption)
+                                .foregroundColor(.secondary)
+                            if let location = activity.location, !location.isEmpty {
+                                Label(location, systemImage: "location")
+                                    .font(.caption2)
+                                    .foregroundColor(.secondary)
+                            }
+                        }
+                        Spacer()
+                        VStack(alignment: .trailing, spacing: 4) {
+                            Label(formatDuration(activity.duration), systemImage: "clock")
+                                .font(.caption2)
+                                .foregroundColor(.secondary)
+                            if activity.rating > 0 {
+                                Text(ratingEmojis[Int(activity.rating) - 1])
+                                    .font(.title3)
+                            }
+                        }
+                    }
+                    .frame(maxWidth: .infinity)
+                }
+                .buttonStyle(PlainButtonStyle())
+            } else {
+                Text("No activities recorded yet")
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.vertical, 12)
+            }
+        }
+        .frame(maxWidth: .infinity)
+    }
+    
+    private func formatDuration(_ duration: Double) -> String {
+        let hours = Int(duration)
+        let minutes = Int((duration.truncatingRemainder(dividingBy: 1)) * 60)
+        return "\(hours)h \(minutes)m"
+    }
+}
+
+struct DashboardView_Previews: PreviewProvider {
+    static var previews: some View {
+        DashboardView()
+            .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+    }
 }
